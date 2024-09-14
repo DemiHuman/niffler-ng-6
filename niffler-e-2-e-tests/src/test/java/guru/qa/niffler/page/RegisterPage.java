@@ -7,6 +7,7 @@ import io.qameta.allure.Step;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.page;
 
 public class RegisterPage {
     private final SelenideElement logInLink = $(".form__link");
@@ -51,14 +52,14 @@ public class RegisterPage {
     public LoginPage goToLoginPageByLogInLink() {
         logInLink.click();
 
-        return new LoginPage();
+        return page(LoginPage.class);
     }
 
     @Step("Страница регистрации. Нажать кнопку 'SignIn' для перехода на страницу логина")
     public LoginPage goToLoginPageBySignInButton() {
         signInButton.click();
 
-        return new LoginPage();
+        return page(LoginPage.class);
     }
 
     public RegisterPage registerUser(String username, String password) {
