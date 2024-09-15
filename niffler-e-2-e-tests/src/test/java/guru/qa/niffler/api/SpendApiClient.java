@@ -83,6 +83,18 @@ public class SpendApiClient {
     assertEquals(202, statusResponse.code());
   }
 
+  public CategoryJson addCategory(CategoryJson category) {
+    final Response<CategoryJson> response;
+    try {
+      response = spendApi.addCategory(category)
+              .execute();
+    } catch (IOException e) {
+      throw new AssertionError(e);
+    }
+    assertEquals(200, response.code());
+    return response.body();
+  }
+
   public CategoryJson updateCategory(CategoryJson category) {
     final Response<CategoryJson> response;
     try {

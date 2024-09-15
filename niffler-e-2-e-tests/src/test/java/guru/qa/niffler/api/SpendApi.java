@@ -39,6 +39,9 @@ public interface SpendApi {
           @Query("ids") List<String> ids
   );
 
+  @POST("internal/categories/add")
+  Call<CategoryJson> addCategory(@Body CategoryJson category);
+
   @PATCH("internal/categories/update")
   Call<CategoryJson> updateCategory(@Body CategoryJson category);
 
