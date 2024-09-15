@@ -4,7 +4,8 @@ import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public interface SpendApi {
 
   @POST("internal/spends/add")
+  @ResponseStatus(HttpStatus.CREATED)
   Call<SpendJson> addSpend(@Body SpendJson spend);
 
   @PATCH("internal/spends/edit")
@@ -31,7 +33,8 @@ public interface SpendApi {
   );
 
   @DELETE("internal/spends/remove")
-  void deleteSpend(
+  @ResponseStatus(HttpStatus.ACCEPTED)
+  Call<ResponseStatus> deleteSpend(
           @Query("username") String username,
           @Query("ids") List<String> ids
   );
