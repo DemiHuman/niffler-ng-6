@@ -24,16 +24,16 @@ public interface SpendApi {
 
   @GET("internal/spends/all")
   Call<List<SpendJson>> getSpend(
-          @RequestParam String username,
-          @RequestParam(required = false) CurrencyValues filterCurrency,
-          @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date from,
-          @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date to
+          @Query("username") String username,
+          @Query("filterCurrency") CurrencyValues filterCurrency,
+          @Query("from") @DateTimeFormat(pattern = "yyyy-MM-dd") Date from,
+          @Query("to") @DateTimeFormat(pattern = "yyyy-MM-dd") Date to
   );
 
   @DELETE("internal/spends/remove")
   void deleteSpend(
-          @RequestParam String username,
-          @RequestParam List<String> ids
+          @Query("username") String username,
+          @Query("ids") List<String> ids
   );
 
   @PATCH("internal/categories/update")
@@ -41,7 +41,7 @@ public interface SpendApi {
 
   @GET("internal/categories/all")
   Call <List<CategoryJson>> getCategories(
-          @RequestParam String username,
-          @RequestParam(required = false, defaultValue = "false") boolean excludeArchived
+          @Query("username") String username,
+          @Query("excludeArchived") boolean excludeArchived
   );
 }
