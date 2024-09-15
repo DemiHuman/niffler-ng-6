@@ -12,6 +12,6 @@ public class randomMethods {
 
     public static String getRandomPassword() {
         Long date = new Date().getTime();
-        return new Faker().cat().name() + date.toString().substring(6);
+        return new Faker().cat().name() + date.toString().substring(8);
     }
 }

@@ -10,7 +10,7 @@ import static guru.qa.niffler.utils.randomMethods.getRandomPassword;
 import static guru.qa.niffler.utils.randomMethods.getRandomUsername;
 import static io.qameta.allure.Allure.step;
 
-@DisplayName("Негативные тесты на регистрацию нового пользователя")
+@DisplayName("[Negative] Тесты на регистрацию нового пользователя")
 public class NegativeRegistrationTest {
 
     private static final Config CFG = Config.getInstance();
