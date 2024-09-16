@@ -4,16 +4,14 @@ import guru.qa.niffler.api.SpendApiClient;
 import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.api.extension.ParameterResolutionException;
-import org.junit.jupiter.api.extension.ParameterResolver;
+import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class SpendingExtension implements BeforeEachCallback, ParameterResolver {
+public class SpendingExtension implements BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback {
 
   public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(SpendingExtension.class);
 
@@ -53,4 +51,18 @@ public class SpendingExtension implements BeforeEachCallback, ParameterResolver 
   public SpendJson resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
     return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), SpendJson.class);
   }
+
+    @Override
+    public void afterTestExecution(ExtensionContext context) throws Exception {
+        SpendJson spend = context.getStore(SpendingExtension.NAMESPACE)
+                .get(context.getUniqueId(), SpendJson.class);
+
+        if (spend != null) {
+            // создаем объект с archived = true
+            List<String> isd = new ArrayList<>(){{
+                add(spend.id().toString());
+            }};
+            spendApiClient.deleteSpend(spend.username(), isd);
+        }
+    }
 }

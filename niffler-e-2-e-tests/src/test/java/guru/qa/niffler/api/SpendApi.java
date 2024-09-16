@@ -15,7 +15,6 @@ import java.util.List;
 public interface SpendApi {
 
   @POST("internal/spends/add")
-  @ResponseStatus(HttpStatus.CREATED)
   Call<SpendJson> addSpend(@Body SpendJson spend);
 
   @PATCH("internal/spends/edit")
@@ -33,8 +32,7 @@ public interface SpendApi {
   );
 
   @DELETE("internal/spends/remove")
-  @ResponseStatus(HttpStatus.ACCEPTED)
-  Call<ResponseStatus> deleteSpend(
+  Call<Void> deleteSpend(
           @Query("username") String username,
           @Query("ids") List<String> ids
   );

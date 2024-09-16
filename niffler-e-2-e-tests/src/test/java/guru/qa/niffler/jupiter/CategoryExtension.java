@@ -23,9 +23,11 @@ public class CategoryExtension implements BeforeEachCallback, AfterTestExecution
                             anno.username(),
                             false
                     );
+
+                    category = spendApiClient.addCategory(category);
                     context.getStore(NAMESPACE).put(
                             context.getUniqueId(),
-                            spendApiClient.addCategory(category)
+                            category
                     );
 
                     if (anno.archived()) {
@@ -46,13 +48,13 @@ public class CategoryExtension implements BeforeEachCallback, AfterTestExecution
 
     @Override
     public void afterTestExecution(ExtensionContext context) throws Exception {
-        CategoryJson category = context.getStore(SpendingExtension.NAMESPACE)
+        CategoryJson category = context.getStore(CategoryExtension.NAMESPACE)
                 .get(context.getUniqueId(), CategoryJson.class);
 
         if (!category.archived()) {
             // создаем объект с archived = true
             CategoryJson updateCategory = new CategoryJson(
-                    null,
+                    category.id(),
                     category.name(),
                     category.username(),
                     true);
