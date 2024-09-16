@@ -3,7 +3,6 @@ package guru.qa.niffler.api;
 import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
-import org.springframework.format.annotation.DateTimeFormat;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -25,8 +24,8 @@ public interface SpendApi {
   Call<List<SpendJson>> getSpend(
           @Query("username") String username,
           @Query("filterCurrency") CurrencyValues filterCurrency,
-          @Query("from") @DateTimeFormat(pattern = "yyyy-MM-dd") Date from,
-          @Query("to") @DateTimeFormat(pattern = "yyyy-MM-dd") Date to
+          @Query("from") Date from,
+          @Query("to") Date to
   );
 
   @DELETE("internal/spends/remove")

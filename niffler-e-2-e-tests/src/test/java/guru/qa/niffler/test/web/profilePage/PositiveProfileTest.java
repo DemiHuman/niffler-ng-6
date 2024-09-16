@@ -20,7 +20,11 @@ public class PositiveProfileTest {
     @Test
     void archivedCategoryShouldPresentInCategoriesList(CategoryJson category) {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
-                .login("duck", "12345");
+                .login("duck", "12345")
+                .checkLoadingMainPage()
+                .openProfile()
+                .checkLoadingProfilePage()
+                .checkUsername(category.username());
     }
 
     @Category(
@@ -28,6 +32,12 @@ public class PositiveProfileTest {
     )
     @Test
     void activeCategoryShouldPresentInCategoriesList(CategoryJson category) {
-
+        Selenide.open(CFG.frontUrl(), LoginPage.class)
+                .login("duck", "12345")
+                .checkLoadingMainPage()
+                .openProfile()
+                .checkLoadingProfilePage()
+                .checkUsername(category.username())
+                .checkThatActiveCategoryPresentInCategoriesList(category.name());
     }
 }
