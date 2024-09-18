@@ -8,6 +8,7 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
+import static io.qameta.allure.Allure.step;
 
 public class ProfilePage {
 
@@ -16,7 +17,7 @@ public class ProfilePage {
     private final SelenideElement saveChangesButton = $("Save changes");
     private final SelenideElement usernameInput = $("input[name='username']");
     private final SelenideElement nameInput = $("input[name='name']");
-    private final SelenideElement showArchivedCheckbox = $("input[type='checkbox']");
+    private final SelenideElement showArchivedCheckbox = $x("//span[text()='Show archived']");
     private final SelenideElement newCategoryInput = $("input[name='category']");
     private final SelenideElement archiveCategoryPopupTitle = $x("//h2[text()='Archive category']");
     private final SelenideElement archiveCategoryPopupArchiveButton = $x("//button[text()='Archive']");
@@ -25,6 +26,13 @@ public class ProfilePage {
     public ProfilePage editName(String name) {
         nameInput.setValue(name);
         saveChangesButton.click();
+
+        return this;
+    }
+
+    @Step("Страница профиля. Нажать на чекбокс показа архивных категорий")
+    public ProfilePage clickShowArchivedCheckbox() {
+        showArchivedCheckbox.click();
 
         return this;
     }
@@ -61,9 +69,15 @@ public class ProfilePage {
         return this;
     }
 
-    @Step("Страница профиля. Проверить, что категория {categoryName} отображается в списке активных")
-    public ProfilePage checkThatActiveCategoryPresentInCategoriesList(String categoryName) {
-        $$(".MuiChip-label").find(text(categoryName)).should(visible);
+    public ProfilePage checkThatCategoryPresentInCategoriesList(String categoryName, boolean isPresent) {
+        if (isPresent) {
+            step(String.format("Страница профиля. Проверить, что категория '%s' отображается в списке категорий", categoryName), () ->
+                    $$(".MuiChip-label").find(text(categoryName)).should(visible));
+        }
+         else {
+            step(String.format("Страница профиля. Проверить, что категория '%s' не отображается в списке категорий", categoryName), () ->
+                    $$(".MuiChip-label").find(text(categoryName)).shouldNot(visible));
+        }
 
         return this;
     }

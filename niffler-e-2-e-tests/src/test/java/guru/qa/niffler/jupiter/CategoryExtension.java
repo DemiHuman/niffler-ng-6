@@ -31,7 +31,13 @@ public class CategoryExtension implements BeforeEachCallback, AfterTestExecution
                     );
 
                     if (anno.archived()) {
-                        spendApiClient.updateCategory(category);
+                        // создаем объект с archived = true
+                        CategoryJson updateCategory = new CategoryJson(
+                                category.id(),
+                                category.name(),
+                                category.username(),
+                                true);
+                        spendApiClient.updateCategory(updateCategory);
                     }
                 });
     }

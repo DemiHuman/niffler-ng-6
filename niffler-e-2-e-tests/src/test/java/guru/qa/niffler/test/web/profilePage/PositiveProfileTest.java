@@ -24,7 +24,10 @@ public class PositiveProfileTest {
                 .checkLoadingMainPage()
                 .openProfile()
                 .checkLoadingProfilePage()
-                .checkUsername(category.username());
+                .checkUsername(category.username())
+                .checkThatCategoryPresentInCategoriesList(category.name(), false)
+                .clickShowArchivedCheckbox()
+                .checkThatCategoryPresentInCategoriesList(category.name(), true);
     }
 
     @Category(
@@ -38,6 +41,6 @@ public class PositiveProfileTest {
                 .openProfile()
                 .checkLoadingProfilePage()
                 .checkUsername(category.username())
-                .checkThatActiveCategoryPresentInCategoriesList(category.name());
+                .checkThatCategoryPresentInCategoriesList(category.name(), true);
     }
 }
