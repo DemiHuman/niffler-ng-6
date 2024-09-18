@@ -16,7 +16,7 @@ public class NegativeRegistrationTest {
     private static final Config CFG = Config.getInstance();
 
     @Test
-    @DisplayName("Повторная регистрация имеющегося пользователя")
+    @DisplayName("Проверка сообщения, что пользователь уже существует при повторной регистрации")
     void shouldNotRegisterUserWithExistingUsername() {
         String username = getRandomUsername();
         String password = getRandomPassword();
@@ -32,7 +32,21 @@ public class NegativeRegistrationTest {
                 Selenide.page(LoginPage.class)
                         .clickCreateNewAccountButton()
                         .registerUser(username, password)
-                        .checkUsernameAlreadyExistsText(username)
+                        .checkDisplayUsernameAlreadyExistsErrorMessage(username)
         );
+    }
+
+    @Test
+    @DisplayName("Проверка отображения сообщения, что пароль и пароль подтверждения должны быть одинаковыми")
+    void shouldNotRegisterUserWithDifferentSubmitPassword() {
+        String username = getRandomUsername();
+        String password = getRandomPassword();
+        Selenide.open(CFG.frontUrl(), LoginPage.class)
+                .clickCreateNewAccountButton()
+                .setUsername(username)
+                .setPassword(password)
+                .setPasswordSubmit("incorrect")
+                .clickSignUpButton()
+                .checkDisplayPasswordsShouldBeEqualErrorMessage();
     }
 }

@@ -6,8 +6,9 @@ import io.qameta.allure.Step;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.*;
 
 public class RegisterPage {
     private final SelenideElement logInLink = $(".form__link");
@@ -18,7 +19,7 @@ public class RegisterPage {
     private final SelenideElement signUpButton = $(".form__submit");
 
     private final SelenideElement successRegistrationText = $(".form__paragraph_success");
-    private final SelenideElement UsernameAlreadyExistsText = $(".form__error");
+    private final SelenideElement errorMessage = $(".form__error");
 
     @Step("Страница регистрации. Ввести username '{username}'")
     public RegisterPage setUsername(String username) {
@@ -71,20 +72,36 @@ public class RegisterPage {
         return this;
     }
 
+    @Step("Страница регистрации. Нажать кнопку 'Sign Up'")
+    public RegisterPage clickSignUpButton() {
+        signUpButton.click();
+
+        return this;
+    }
+
     @Step("Страница регистрации. Проверить сообщение об успешной регистрации нового пользователя")
     public RegisterPage checkUserSuccessRegistrationText() {
         successRegistrationText
-                .shouldBe(Condition.visible, Duration.ofSeconds(5))
-                .shouldHave(Condition.text("Congratulations! You've registered!"));
+                .shouldBe(visible, Duration.ofSeconds(5))
+                .shouldHave(text("Congratulations! You've registered!"));
 
         return this;
     }
 
     @Step("Страница регистрации. Проверить сообщение, что пользователь уже существует")
-    public RegisterPage checkUsernameAlreadyExistsText(String username) {
-        UsernameAlreadyExistsText
-                .shouldBe(Condition.visible, Duration.ofSeconds(5))
-                .shouldHave(Condition.text(String.format("Username `%s` already exists", username)));
+    public RegisterPage checkDisplayUsernameAlreadyExistsErrorMessage(String username) {
+        errorMessage
+                .shouldBe(visible, Duration.ofSeconds(2))
+                .shouldHave(text(String.format("Username `%s` already exists", username)));
+
+        return this;
+    }
+
+    @Step("Страница регистрации. Проверить сообщение 'Passwords should be equal'")
+    public RegisterPage checkDisplayPasswordsShouldBeEqualErrorMessage() {
+        errorMessage
+                .should(visible, Duration.ofSeconds(2))
+                .shouldHave(text("Passwords should be equal"));
 
         return this;
     }

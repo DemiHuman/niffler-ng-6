@@ -12,10 +12,18 @@ public class NegativeLoginTest {
     private static final Config CFG = Config.getInstance();
 
     @Test
-    @DisplayName("Проверка отображения главной страницы после успешного логина")
-    void mainPageShouldBeDisplayedAfterSuccessLogin() {
+    @DisplayName("Проверка сообщения, что данные пользователя неверные при вводе незарегистрированного пользователя")
+    void checkLoginErrorMessageWithInvalidUsername() {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
-                .login("duck", "12345")
-                .checkLoadingMainPage();
+                .loginWithInvalidUserCredentials("duck111", "12345")
+                .checkDisplayInvalidUserCredentialsMessage();
+    }
+
+    @Test
+    @DisplayName("Проверка сообщения, что данные пользователя неверные при вводе неправильного пароля у зарегистрированного пользователя")
+    void checkLoginErrorMessageWithInvalidPassword() {
+        Selenide.open(CFG.frontUrl(), LoginPage.class)
+                .loginWithInvalidUserCredentials("duck", "111111")
+                .checkDisplayInvalidUserCredentialsMessage();
     }
 }
