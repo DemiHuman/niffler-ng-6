@@ -5,8 +5,11 @@ import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.Category;
 import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.page.LoginPage;
+import guru.qa.niffler.page.MainPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static com.codeborne.selenide.Selenide.page;
 
 @DisplayName("[Positive] Тесты на страницу профиля")
 public class PositiveProfileTest {
@@ -20,14 +23,16 @@ public class PositiveProfileTest {
     @Test
     void archivedCategoryShouldPresentInCategoriesList(CategoryJson category) {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
-                .login("duck", "12345")
+                .login("duck", "12345");
+
+        page(MainPage.class)
                 .checkLoadingMainPage()
                 .openProfile()
                 .checkLoadingProfilePage()
                 .checkUsername(category.username())
-                .checkThatCategoryPresentInCategoriesList(category.name(), false)
+                .checkThatCategoryNotPresentInCategoriesList(category.name())
                 .clickShowArchivedCheckbox()
-                .checkThatCategoryPresentInCategoriesList(category.name(), true);
+                .checkThatCategoryPresentInCategoriesList(category.name());
     }
 
     @Category(
@@ -36,11 +41,13 @@ public class PositiveProfileTest {
     @Test
     void activeCategoryShouldPresentInCategoriesList(CategoryJson category) {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
-                .login("duck", "12345")
+                .login("duck", "12345");
+
+        page(MainPage.class)
                 .checkLoadingMainPage()
                 .openProfile()
                 .checkLoadingProfilePage()
                 .checkUsername(category.username())
-                .checkThatCategoryPresentInCategoriesList(category.name(), true);
+                .checkThatCategoryPresentInCategoriesList(category.name());
     }
 }

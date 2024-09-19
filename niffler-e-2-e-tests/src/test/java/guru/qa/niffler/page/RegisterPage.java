@@ -1,10 +1,7 @@
 package guru.qa.niffler.page;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
-
-import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -24,43 +21,37 @@ public class RegisterPage {
     @Step("Страница регистрации. Ввести username '{username}'")
     public RegisterPage setUsername(String username) {
         usernameInput.setValue(username);
-
         return this;
     }
 
     @Step("Страница регистрации. Ввести пароль")
     public RegisterPage setPassword(String password) {
         passwordInput.setValue(password);
-
         return this;
     }
 
     @Step("Страница регистрации. Ввести пароль повторно для подтверждения")
     public RegisterPage setPasswordSubmit(String password) {
         passwordSubmitInput.setValue(password);
-
         return this;
     }
 
     @Step("Страница регистрации. Нажать кнопку 'SignUp' для создания нового пользователя")
     public RegisterPage submitRegistration() {
         signUpButton.click();
-
         return this;
     }
 
     @Step("Страница регистрации. Нажать на ссылку 'Log in' для перехода на страницу логина")
     public LoginPage goToLoginPageByLogInLink() {
         logInLink.click();
-
-        return page(LoginPage.class);
+        return new LoginPage();
     }
 
     @Step("Страница регистрации. Нажать кнопку 'SignIn' для перехода на страницу логина")
     public LoginPage goToLoginPageBySignInButton() {
         signInButton.click();
-
-        return page(LoginPage.class);
+        return new LoginPage();
     }
 
     public RegisterPage registerUser(String username, String password) {
@@ -75,34 +66,30 @@ public class RegisterPage {
     @Step("Страница регистрации. Нажать кнопку 'Sign Up'")
     public RegisterPage clickSignUpButton() {
         signUpButton.click();
-
         return this;
     }
 
     @Step("Страница регистрации. Проверить сообщение об успешной регистрации нового пользователя")
     public RegisterPage checkUserSuccessRegistrationText() {
         successRegistrationText
-                .shouldBe(visible, Duration.ofSeconds(5))
+                .shouldBe(visible)
                 .shouldHave(text("Congratulations! You've registered!"));
-
         return this;
     }
 
     @Step("Страница регистрации. Проверить сообщение, что пользователь уже существует")
     public RegisterPage checkDisplayUsernameAlreadyExistsErrorMessage(String username) {
         errorMessage
-                .shouldBe(visible, Duration.ofSeconds(2))
+                .shouldBe(visible)
                 .shouldHave(text(String.format("Username `%s` already exists", username)));
-
         return this;
     }
 
     @Step("Страница регистрации. Проверить сообщение 'Passwords should be equal'")
     public RegisterPage checkDisplayPasswordsShouldBeEqualErrorMessage() {
         errorMessage
-                .should(visible, Duration.ofSeconds(2))
+                .should(visible)
                 .shouldHave(text("Passwords should be equal"));
-
         return this;
     }
 }

@@ -8,6 +8,8 @@ import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.MainPage;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Selenide.page;
+
 public class SpendingWebTest {
 
   private static final Config CFG = Config.getInstance();
@@ -23,7 +25,10 @@ public class SpendingWebTest {
     final String newDescription = "Обучение Niffler Next Generation";
 
     Selenide.open(CFG.frontUrl(), LoginPage.class)
-        .login("duck", "12345")
+        .login("duck", "12345");
+
+    page(MainPage.class)
+        .checkLoadingMainPage()
         .editSpending(spend.description())
         .setNewSpendingDescription(newDescription)
         .save();

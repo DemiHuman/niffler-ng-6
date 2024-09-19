@@ -41,6 +41,7 @@ public class NegativeRegistrationTest {
     void shouldNotRegisterUserWithDifferentSubmitPassword() {
         String username = getRandomUsername();
         String password = getRandomPassword();
+
         Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .clickCreateNewAccountButton()
                 .setUsername(username)

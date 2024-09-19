@@ -6,6 +6,8 @@ import guru.qa.niffler.page.LoginPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Selenide.page;
+
 @DisplayName("[Negative] Тесты на логин пользователя")
 public class NegativeLoginTest {
 
@@ -15,7 +17,9 @@ public class NegativeLoginTest {
     @DisplayName("Проверка сообщения, что данные пользователя неверные при вводе незарегистрированного пользователя")
     void checkLoginErrorMessageWithInvalidUsername() {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
-                .loginWithInvalidUserCredentials("duck111", "12345")
+                .login("duck111", "12345");
+
+        page(LoginPage.class)
                 .checkDisplayInvalidUserCredentialsMessage();
     }
 
@@ -23,7 +27,9 @@ public class NegativeLoginTest {
     @DisplayName("Проверка сообщения, что данные пользователя неверные при вводе неправильного пароля у зарегистрированного пользователя")
     void checkLoginErrorMessageWithInvalidPassword() {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
-                .loginWithInvalidUserCredentials("duck", "111111")
+                .login("duck", "111111");
+
+        page(LoginPage.class)
                 .checkDisplayInvalidUserCredentialsMessage();
     }
 }

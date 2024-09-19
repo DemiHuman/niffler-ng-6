@@ -48,7 +48,7 @@ public class CategoryExtension implements BeforeEachCallback, AfterTestExecution
     }
 
     @Override
-    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+    public CategoryJson resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), CategoryJson.class);
     }
 
@@ -57,7 +57,7 @@ public class CategoryExtension implements BeforeEachCallback, AfterTestExecution
         CategoryJson category = context.getStore(CategoryExtension.NAMESPACE)
                 .get(context.getUniqueId(), CategoryJson.class);
 
-        if (!category.archived()) {
+        if (category != null && !category.archived()) {
             // создаем объект с archived = true
             CategoryJson updateCategory = new CategoryJson(
                     category.id(),

@@ -28,7 +28,6 @@ public class MainPage extends Header {
   public MainPage checkLoadingMainPage() {
     statisticsTitle.should(visible);
     historyOfSpendingsTitle.should(visible);
-
     return this;
   }
 }
